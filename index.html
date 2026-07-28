@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>西日本 撮影・映像 入札案件モニター</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNyIgZmlsbD0iIzBkNmU3OCIvPjxwYXRoIGQ9Ik0xMi41IDkuNSBMMTIuNSAyMi41IEwyMy41IDE2IFoiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNyIgZmlsbD0iI2Q4MTg3MiIvPjxwYXRoIGQ9Ik0xMi41IDkuNSBMMTIuNSAyMi41IEwyMy41IDE2IFoiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="入札モニター">
-<meta name="theme-color" content="#0d6e78">
+<meta name="theme-color" content="#d81872">
 <style>
   :root{
-    --bg:#f7f8fa; --panel:#ffffff; --panel-2:#f0f2f6;
-    --ink:#161a20; --muted:#5c6573; --faint:#8b94a3;
-    --line:#e2e6ee; --line-strong:#cdd4e0;
-    --accent:#0d6e78; --accent-soft:#e3f1f2; --accent-ink:#094b53;
+    --bg:#ffffff; --panel:#ffffff; --panel-2:#eff3fa;
+    --ink:#32373c; --muted:#5f6874; --faint:#8b94a3;
+    --line:#e4e9f2; --line-strong:#cfd7e4;
+    --accent:#d81872; --accent-soft:#fdeaf2; --accent-ink:#a8115a;
     --ok:#1f8a5b; --ok-soft:#e2f3ea;
     --warn:#b5701a; --warn-soft:#f8ecd9;
     --urgent:#c03a2b; --urgent-soft:#f7e2df;
@@ -25,7 +25,7 @@
       --bg:#0f1216; --panel:#161b22; --panel-2:#1c222b;
       --ink:#e7ebf2; --muted:#9aa4b3; --faint:#6b7484;
       --line:#252c37; --line-strong:#323b48;
-      --accent:#38b0bb; --accent-soft:#123037; --accent-ink:#7fd6de;
+      --accent:#f2559a; --accent-soft:#33101f; --accent-ink:#ff8fbe;
       --ok:#43c088; --ok-soft:#12291f;
       --warn:#d69a4c; --warn-soft:#2c2314;
       --urgent:#e2685a; --urgent-soft:#2e1815;
@@ -33,14 +33,14 @@
     }
   }
   :root[data-theme="light"]{
-    --bg:#f7f8fa; --panel:#ffffff; --panel-2:#f0f2f6; --ink:#161a20; --muted:#5c6573; --faint:#8b94a3;
-    --line:#e2e6ee; --line-strong:#cdd4e0; --accent:#0d6e78; --accent-soft:#e3f1f2; --accent-ink:#094b53;
+    --bg:#ffffff; --panel:#ffffff; --panel-2:#eff3fa; --ink:#32373c; --muted:#5f6874; --faint:#8b94a3;
+    --line:#e4e9f2; --line-strong:#cfd7e4; --accent:#d81872; --accent-soft:#fdeaf2; --accent-ink:#a8115a;
     --ok:#1f8a5b; --ok-soft:#e2f3ea; --warn:#b5701a; --warn-soft:#f8ecd9; --urgent:#c03a2b; --urgent-soft:#f7e2df;
     --shadow:0 1px 2px rgba(16,20,30,.04),0 6px 18px rgba(16,20,30,.05);
   }
   :root[data-theme="dark"]{
     --bg:#0f1216; --panel:#161b22; --panel-2:#1c222b; --ink:#e7ebf2; --muted:#9aa4b3; --faint:#6b7484;
-    --line:#252c37; --line-strong:#323b48; --accent:#38b0bb; --accent-soft:#123037; --accent-ink:#7fd6de;
+    --line:#252c37; --line-strong:#323b48; --accent:#f2559a; --accent-soft:#33101f; --accent-ink:#ff8fbe;
     --ok:#43c088; --ok-soft:#12291f; --warn:#d69a4c; --warn-soft:#2c2314; --urgent:#e2685a; --urgent-soft:#2e1815;
     --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 22px rgba(0,0,0,.35);
   }
@@ -71,6 +71,13 @@
   .tag.done{background:var(--panel-2);color:var(--faint)}
   .section .hint{flex-basis:100%;font-size:12px;color:var(--faint);font-weight:500}
 
+
+  .band{border-radius:16px;padding:2px 14px 18px;margin-top:8px}
+  .band-open{background:linear-gradient(180deg,var(--accent-soft),transparent 62%);border:1px solid var(--line)}
+  .band-done{background:var(--panel-2);border:1px solid var(--line)}
+  .band-done .card{background:var(--panel);opacity:.94}
+  .band h2.section{margin-top:18px}
+  @media(max-width:520px){.band{padding:2px 10px 14px;margin-left:-2px;margin-right:-2px}}
   .cards{display:grid;grid-template-columns:1fr;gap:12px}
   @media(min-width:600px){.cards{grid-template-columns:repeat(2,1fr)}}
   @media(min-width:920px){.cards{grid-template-columns:repeat(3,1fr)}}
@@ -120,7 +127,7 @@
     <h1>西日本 撮影・映像 入札案件モニター</h1>
     <p class="sub">関西（大阪・京都・兵庫・奈良・滋賀・和歌山）＋三重 を毎回深掘り。あわせて中国・四国・中部・東海も巡回。撮影（写真・動画・映像）を含みそうな公共入札・プロポーザルを幅広く収集。ドローン空撮の使い所は記号（◎○△）で補足表示。</p>
     <div class="updated">
-      <span><span class="dot"></span>最終更新 <b>2026-07-29 01:00</b></span>
+      <span><span class="dot"></span>最終更新 <b>2026-07-29 02:00</b></span>
       <span>自動更新：<b>毎週 月・木</b></span>
     </div>
   </header>
@@ -132,6 +139,7 @@
     <div class="stat"><div class="n" style="color:var(--muted)">12</div><div class="l">終了案件（実績・相場｜2年以内）</div></div>
   </div>
 
+  <section class="band band-open">
   <h2 class="section"><span class="tag live">公募中</span>応募可能（確認済み）<span class="hint">締切の近い順</span></h2>
   <div class="cards">
 
@@ -280,7 +288,9 @@
 
   </div>
   <p class="legend"><b>空撮向き度</b>　◎ 自然景観中心＝空撮が主役になり得る／○ 施設・広域で空撮が活きる／△ 屋内・啓発中心で空撮の出番は限定的</p>
+  </section>
 
+  <section class="band band-done">
   <h2 class="section"><span class="tag done">終了</span>終了案件（実績・相場の参考）<span class="hint">終了から2年以内。受注者・予算額は分かる範囲で記載</span></h2>
   <div class="cards">
 
@@ -428,6 +438,7 @@
     </article>
 
   </div>
+  </section>
 
   <footer>
     <div class="note"><b>このリストの精度について</b>　公共入札は数百の自治体サイトに分散しており、収集は「各府県のプロポーザル・入札ポータル ＋ 主要市 ＋ 地域名キーワード検索」によるベストエフォートです。全市区町村の総当たりではないため網羅は保証しません。締切は各案件の一次情報で確認していますが、PDFのみに記載され本文から読み取れないものは「要確認」と明記しています。最終判断は必ずリンク先の一次情報でご確認ください。</div>

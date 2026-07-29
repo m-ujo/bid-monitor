@@ -72,6 +72,15 @@
   .section .hint{flex-basis:100%;font-size:12px;color:var(--faint);font-weight:500}
 
 
+
+  .reload{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:50;
+    display:none;align-items:center;gap:7px;border:none;border-radius:999px;
+    background:var(--accent);color:#fff;font-family:inherit;font-weight:700;font-size:14px;
+    padding:12px 18px;box-shadow:0 6px 20px rgba(0,0,0,.28);cursor:pointer;letter-spacing:.02em}
+  .reload.on{display:inline-flex}
+  .reload:active{transform:scale(.97)}
+  .reload:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .reload[disabled]{opacity:.6}
   .band{border-radius:16px;padding:2px 14px 18px;margin-top:8px}
   .band-open{background:linear-gradient(180deg,var(--accent-soft),transparent 62%);border:1px solid var(--line)}
   .band-done{background:var(--panel-2);border:1px solid var(--line)}
@@ -127,7 +136,7 @@
     <h1>西日本 撮影・映像 入札案件モニター</h1>
     <p class="sub">関西（大阪・京都・兵庫・奈良・滋賀・和歌山）＋三重 を毎回深掘り。あわせて中国・四国・中部・東海も巡回。撮影（写真・動画・映像）を含みそうな公共入札・プロポーザルを幅広く収集。ドローン空撮の使い所は記号（◎○△）で補足表示。</p>
     <div class="updated">
-      <span><span class="dot"></span>最終更新 <b>2026-07-29 11:35</b></span>
+      <span><span class="dot"></span>最終更新 <b>2026-07-29 11:50</b></span>
       <span>自動更新：<b>毎週 月・木</b></span>
     </div>
   </header>
@@ -600,5 +609,26 @@
     </ul>
   </footer>
 </div>
+
+<button id="reload" class="reload" type="button" aria-label="最新の情報に更新">&#8635; 更新</button>
+<script>
+(function(){
+  var standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  var btn = document.getElementById('reload');
+  var loadedAt = Date.now();
+  function refresh(){
+    if(btn){ btn.disabled = true; btn.textContent = '更新中…'; }
+    location.replace(location.pathname + '?t=' + Date.now());
+  }
+  if(standalone){
+    btn.classList.add('on');
+    btn.addEventListener('click', refresh);
+    // アプリに戻ったとき、前回読み込みから5分以上経っていれば自動で最新化
+    document.addEventListener('visibilitychange', function(){
+      if(document.visibilityState === 'visible' && Date.now() - loadedAt > 300000){ refresh(); }
+    });
+  }
+})();
+</script>
 </body>
 </html>

@@ -74,9 +74,9 @@
 
 
   .reload{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:50;
-    display:none;align-items:center;gap:7px;border:none;border-radius:999px;
-    background:var(--accent);color:#fff;font-family:inherit;font-weight:700;font-size:14px;
-    padding:12px 18px;box-shadow:0 6px 20px rgba(0,0,0,.28);cursor:pointer;letter-spacing:.02em}
+    display:none;align-items:center;gap:6px;border:1px solid var(--line-strong);border-radius:999px;
+    background:var(--panel);color:var(--muted);font-family:inherit;font-weight:700;font-size:13px;
+    padding:9px 14px;box-shadow:0 2px 10px rgba(0,0,0,.12);cursor:pointer;letter-spacing:.02em}
   .reload.on{display:inline-flex}
   .reload:active{transform:scale(.97)}
   .reload:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
@@ -136,7 +136,7 @@
     <h1>西日本 撮影・映像 入札案件モニター</h1>
     <p class="sub">関西（大阪・京都・兵庫・奈良・滋賀・和歌山）＋三重 を毎回深掘り。あわせて中国・四国・中部・東海も巡回。撮影（写真・動画・映像）を含みそうな公共入札・プロポーザルを幅広く収集。ドローン空撮の使い所は記号（◎○△）で補足表示。</p>
     <div class="updated">
-      <span><span class="dot"></span>最終更新 <b>2026-07-29 11:36</b></span>
+      <span><span class="dot"></span>最終更新 <b>2026-07-29 11:52</b></span>
       <span>自動更新：<b>毎週 月・木</b></span>
     </div>
   </header>
@@ -610,23 +610,44 @@
   </footer>
 </div>
 
-<button id="reload" class="reload" type="button" aria-label="最新の情報に更新">&#8635; 更新</button>
+<button id="reload" class="reload" type="button" aria-label="ページを再読み込み">&#8635; 再読み込み</button>
 <script>
 (function(){
   var standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
   var btn = document.getElementById('reload');
-  var loadedAt = Date.now();
-  function refresh(){
-    if(btn){ btn.disabled = true; btn.textContent = '更新中…'; }
+  var RE = /最終更新 <b>([^<]+)<\/b>/;
+  var m = document.body.innerHTML.match(RE);
+  var current = m ? m[1] : null;
+  var lastCheck = 0;
+
+  function reload(){
+    if(btn){ btn.disabled = true; btn.textContent = '読み込み中…'; }
     location.replace(location.pathname + '?t=' + Date.now());
   }
+
+  // 公開中のHTMLを取得し「最終更新」が変わっていた時だけリロード
+  function checkForUpdate(){
+    if(!current) return;
+    var now = Date.now();
+    if(now - lastCheck < 60000) return;
+    lastCheck = now;
+    fetch(location.pathname + '?v=' + now, {cache:'no-store'})
+      .then(function(r){ return r.ok ? r.text() : null; })
+      .then(function(html){
+        if(!html) return;
+        var f = html.match(RE);
+        if(f && f[1] !== current) reload();
+      })
+      .catch(function(){});
+  }
+
   if(standalone){
     btn.classList.add('on');
-    btn.addEventListener('click', refresh);
-    // アプリに戻ったとき、前回読み込みから5分以上経っていれば自動で最新化
+    btn.addEventListener('click', reload);
     document.addEventListener('visibilitychange', function(){
-      if(document.visibilityState === 'visible' && Date.now() - loadedAt > 300000){ refresh(); }
+      if(document.visibilityState === 'visible') checkForUpdate();
     });
+    window.addEventListener('pageshow', function(e){ if(e.persisted) checkForUpdate(); });
   }
 })();
 </script>
